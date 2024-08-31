@@ -3,11 +3,73 @@ function updateTime() {
   var timeText = document.querySelector("#timeElement");
   timeText.innerHTML = currentTime;
 }
+var biggestIndex = 1;
+var welcomeScreen = document.querySelector("#window")
+var topBar = document.querySelector("#top")
+
+function closeWindow(element) {
+  element.style.visibility = "hidden"
+}
+
+var selectedIcon = undefined
+
+var welcomeScreenClose = document.querySelector("#windowclose")
+
+var welcomeScreenOpen = document.querySelector("#windowopen")
+
+var notesScreen = document.querySelector("#notes")
+
+var notesScreenClose = document.querySelector("#notesclose")
+
+function iconSelected(element) {
+  element.classList.add("selected");
+  selectedIcon = element
+
+}
+function deselectIcon(element) {
+  element.classList.remove("selected");
+  selectedIcon = undefined
+}
+
+var topBar = document.querySelector("#top")
+
+function openWindow(element) {
+  element.style.display = "flex";
+  biggestIndex++;  // Increment biggestIndex by 1
+  element.style.zIndex = biggestIndex;
+  topBar.style.zIndex = biggestIndex + 1;
+}
+
+function handleWindowTap(element) {
+  biggestIndex++;  // Increment biggestIndex by 1
+  element.style.zIndex = biggestIndex;
+  topBar.style.zIndex = biggestIndex + 1;
+  deselectIcon(selectedIcon)
+}
+
+welcomeScreenClose.addEventListener("click", function() {
+  closeWindow(welcomeScreen);
+});
+
+welcomeScreenOpen.addEventListener("click", function() {
+  openWindow(welcomeScreen);
+});
+
 setInterval(updateTime, 1000);
 
 // Make the DIV element draggable:
 dragElement(document.getElementById("window"));
+dragElement(document.getElementById("notes"))
 
+function addWindowTapHandling(element) {
+  element.addEventListener("mousedown", () =>
+    handleWindowTap(element)
+  )
+}
+
+
+
+notesScreenClose.addEventListener("click", () => closeWindow(notesScreen));
 // Step 1: Define a function called `dragElement` that makes an HTML element draggable.
 function dragElement(element) {
   // Step 2: Set up variables to keep track of the element's position.
